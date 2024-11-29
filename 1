@@ -1,0 +1,471 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Distance
+{
+    int kms;
+    int meters;
+
+} D;
+
+D d1, d2, d3, d4;
+
+void Read(D *d)
+{
+    printf("enter distance kms and meters:\n");
+    scanf("%d %d", &d->kms, &d->meters);
+}
+
+void dispaly(D d)
+{
+    printf("\n %d kms %d meters", d.kms, d.meters);
+}
+
+D subtract(D *d1, D *d2, D *d3)
+{
+    if (d1->kms > d2->kms)
+    {
+        d3->kms = d1->kms - d2->kms;
+        d3->meters = d1->meters - d2->meters;
+    }
+    else if (d1->kms < d2->kms)
+    {
+        d3->kms = d2->kms - d1->kms;
+        d3->meters = d2->meters - d1->meters;
+    }
+    else
+    {
+        d3->kms = 0;
+        if (d1->meters > d2->meters)
+            d3->meters = d1->meters - d2->meters;
+        else
+            d3->meters = d2->meters - d1->meters;
+    }
+    if (d3->meters < 0)
+    {
+        d3->meters += 1000;
+        --(d3->kms);
+    }
+}
+void add (D * d1 , D *d2 , D *d3)
+{
+d3->kms=d1->kms+d2->kms;
+d3->meters=d1->meters+d2->meters;
+if(d3->meters>=1000)
+{
+d3->kms+=(d3->meters/1000);
+d3->meters%=1000;
+}
+}
+
+int main()
+{
+    int ch;
+    for (;;)
+    {
+        printf("\t\n MENU\t\n");
+        printf("1.Read distance\n2.to add two distance\n3.to subtract two distance\n4.exit\n");
+        printf("enter choice\n");
+        scanf("%d", &ch);
+
+        switch (ch)
+        {
+        case 1:
+            printf("enter first distance");
+            Read(&d1);
+            printf("enter second distance");
+            Read(&d2);
+            dispaly(d1);
+            dispaly(d2);
+            break;
+
+        case 2:
+            add(&d1, &d2, &d3);
+            dispaly(d3);
+
+        case 3:
+            subtract(&d1, &d2, &d4);
+            dispaly(d4);
+            break;
+
+        case 4:
+            exit(0);
+
+        default:
+            break;
+        }
+    }
+}
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#define max 4
+void push(int stack[], int *top)
+{
+    int item;
+    if (*top == max - 1)
+    {
+        printf("Stack is full");
+        return;
+    }
+    printf("Enter element to insert:");
+    scanf("%d", &item);
+    stack[++(*top)] = item;
+    printf("element=%d inserted successfully ", stack[*top]);
+    return;
+}
+void pop(int stack[], int *top)
+{
+    int item;
+    if (*top == -1)
+    {
+        printf("Stack is empty");
+        return;
+    }
+    item = stack[(*top)--];
+    printf("element=%d deleted successfully ", item);
+    return;
+}
+void Display(int stack[], int *top)
+{
+    if (*top == -1)
+    {
+        printf("Stack is empty");
+    }
+    else
+        for (int i = 0; i <= *top; i++)
+        {
+            printf("element-%d=%d ", i, stack[i]);
+        }
+    return;
+}
+int main()
+{
+    int top = -1;
+    int stack[max];
+    for (;;)
+    {
+        int ch;
+        printf("\n\tMenu\n");
+        printf("1.Push\n");
+        printf("2.POP\n");
+        printf("3.Display\n");
+        printf("Enter your Choice : ");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+        case 1:
+            push(stack, &top);
+            break;
+        case 2:
+            pop(stack, &top);
+            break;
+        case 3:
+            Display(stack, &top);
+            break;
+        case 4:
+            exit(0);
+        default:
+            printf("\nInvalid choice\n");
+        }
+    }
+    return 0;
+}
+
+
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int GCD(int m, int n)
+{
+    if(n==0)
+    return m;
+
+    return GCD(n,m%n);
+
+}
+
+void hanoi(int n,char s, char a, char d)
+{
+    if(n==1)
+    {
+        printf("\nmove disc 1 from %c to %c",s,d);
+        return;
+    }
+    hanoi(n-1,s,d,a);
+    printf("\nmove disc %d from %c to %c",n,s,d);
+    hanoi(n-1,a,s,d);
+}
+
+int largest(int a[],int n)
+{
+    if(n==1)
+    return a[0];
+    int max = largest(a+1,n-1);
+    return(a[0]>max?a[0]:max);
+
+}
+
+void main()
+{
+    int a,b,ch,res1,res2,n,num,ar[100];
+
+    printf("\t\n MENU\t\n");
+    printf("\n1.GCD\n2.tower of hanoi\n3.largest in arrray\n4.exit\n");
+    printf("enter your choice");
+    scanf("%d",&ch);
+
+    switch (ch)
+    {
+    case 1: 
+            printf("enter the value of a and b\n");
+            scanf("%d %d",&a,&b);
+            res1=GCD(a,b);
+            printf("gcd of a and b is %d",res1);
+        break;
+
+    case 2:
+            printf("enter the number of disc");
+            scanf("%d",&num);
+            hanoi(num,'A','B','C');
+            break;
+
+    case 3: 
+            printf("enter the size of an array");
+            scanf("%d",&n);
+            printf("enter the array elements");
+            for(int i=0;i<n;i++)
+            scanf("%d",&ar[i]);
+            res2=largest(ar,n);
+            printf("largest is %d",res2);
+
+            break;
+
+    case 4: 
+            exit(0);
+    
+    default:
+            printf("invalid choilce");
+        break;
+    }
+
+}
+
+
+
+
+
+
+
+#include <stdio.h>
+#define MAX 50
+
+int isOperand(char c)
+{
+    return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+}
+
+int isOperator(char c)
+{
+    return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
+}
+
+int precedence(char c)
+{
+    if (c == '+' || c == '-')
+        return 1;
+    if (c == '*' || c == '/')
+        return 2;
+    if (c == '^')
+        return 3;
+    return 0;
+}
+
+void infixToPostfix(const char *infix, char *postfix)
+{
+    char stack[MAX];
+    int top = -1, j = 0;
+
+    for (int i = 0; infix[i] != '\0'; i++)
+    {
+        char c = infix[i];
+
+        if (isOperand(c))
+        {
+            postfix[j++] = c;
+        }
+
+        else if (c == '(')
+        {
+            stack[++top] = c;
+        }
+
+        else if (c == ')')
+        {
+            while (top != -1 && stack[top] != '(')
+            {
+                postfix[j++] = stack[top--];
+            }
+            top--;
+        }
+
+        else if (isOperator(c))
+        {
+            while (top != -1 && precedence(stack[top]) >= precedence(c))
+            {
+                postfix[j++] = stack[top--];
+            }
+            stack[++top] = c;
+        }
+    }
+    while (top != -1)
+    {
+        postfix[j++] = stack[top--];
+    }
+
+    postfix[j] = '\0';
+}
+
+int main()
+{
+    char infix[100], postfix[100];
+
+    printf("Enter infix expression: ");
+    scanf(" %99[^\n]", infix);
+
+    infixToPostfix(infix, postfix);
+
+    printf("Postfix expression: %s\n", postfix);
+    return 0;
+}
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *link;
+} *NODE;
+NODE getNode()
+{
+    NODE NewNode = (NODE)malloc(sizeof(struct Node));
+    if (!NewNode)
+        printf("Memory Allocation Failed\n");
+    printf("Enter the integer Data:\n");
+    scanf("%d", &NewNode->data);
+    NewNode->link = NULL;
+    return NewNode;
+}
+NODE insertF(NODE front, NODE newNode)
+{
+    newNode->link = front;
+    return newNode;
+}
+NODE insertR(NODE front, NODE newNode)
+{
+    if (front == NULL)
+        return newNode;
+    NODE temp = front;
+    while (temp->link != NULL)
+    {
+        temp = temp->link;
+    }
+    temp->link = newNode;
+    return front;
+}
+NODE Delete(NODE front)
+{
+    if (front == NULL)
+    {
+        printf("\nList is Empty");
+        return front;
+    }
+    int ele;
+    printf("\nEnter element to delete:\n");
+    scanf("%d", &ele);
+    NODE temp = front;
+    NODE prev = NULL;
+    if (temp->data == ele)
+    {
+        front = front->link;
+        free(temp);
+        return front;
+    }
+    while (temp != NULL)
+    {
+        if (temp->data == ele)
+            break;
+        prev = temp;
+        temp = temp->link;
+    }
+    if (temp == NULL)
+        printf("\nElement Not found \n");
+    else
+    {
+        prev->link = temp->link;
+        free(temp);
+    }
+    return front;
+}
+void Display(NODE front)
+{
+    if (front == NULL)
+    {
+        printf("\nList is Empty");
+    }
+    else
+    {
+        while (front != NULL)
+        {
+            printf("\n%d", front->data);
+            front = front->link;
+        }
+    }
+}
+int main()
+{
+    int ch;
+    NODE front = NULL;
+    for (;;)
+    {
+        printf("\n\tMenu\n");
+        printf("1: To insert Front\n");
+        printf("2: To insert Rear\n");
+        printf("3: To Delete Specified Element\n");
+        printf("4: To Display\n");
+        printf("Enter your Choice :\n");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+        case 1:
+            front = insertF(front, getNode());
+            break;
+        case 2:
+            front = insertR(front, getNode());
+            break;
+        case 3:
+            front = Delete(front);
+            break;
+        case 4:
+            Display(front);
+            break;
+        case 5:
+            exit(0);
+        default:
+            printf("\nInvalid Choice\n");
+        }
+    }
+    return 0;
+}
